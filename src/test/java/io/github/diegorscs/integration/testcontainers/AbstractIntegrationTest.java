@@ -1,9 +1,8 @@
-package io.github.diegorscs.intengration.testcontainers;
+package io.github.diegorscs.integration.testcontainers;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.github.diegorscs.Application;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

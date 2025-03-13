@@ -1,11 +1,11 @@
-package io.github.diegorscs.intengration.controller;
+package io.github.diegorscs.integration.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.diegorscs.dto.GenderResponse;
 import io.github.diegorscs.dto.PersonRequest;
 import io.github.diegorscs.dto.PersonResponse;
 import io.github.diegorscs.exceptions.ExceptionResponse;
-import io.github.diegorscs.intengration.testcontainers.AbstractIntegrationTest;
+import io.github.diegorscs.integration.testcontainers.AbstractIntegrationTest;
 import io.github.diegorscs.model.Gender;
 import io.github.diegorscs.model.Person;
 import io.github.diegorscs.repository.PersonRepository;

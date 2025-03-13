@@ -1,6 +1,6 @@
-package io.github.diegorscs.intengration.swagger;
+package io.github.diegorscs.integration.swagger;
 
-import io.github.diegorscs.intengration.testcontainers.AbstractIntegrationTest;
+import io.github.diegorscs.integration.testcontainers.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
