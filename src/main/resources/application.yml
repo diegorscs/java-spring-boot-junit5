@@ -1,0 +1,19 @@
+spring:
+  data:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5434/control_person
+    username: postgres
+    password: postgres
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      format_sql: true
+    properties:
+      hibernate:
+        show_sql: true
+springdoc:
+  swagger-ui:
+    path: /docs
+    url: openapi.yaml

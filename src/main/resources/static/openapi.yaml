@@ -1,0 +1,277 @@
+openapi: 3.0.3
+info:
+  title: People API
+  description: API to manage people
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local server
+
+paths:
+  /persons:
+    get:
+      tags:
+        - Persons
+      summary: List all people
+      operationId: findAllPersons
+      description: "Retrieves a list of people"
+      responses:
+        "200":
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PersonResponse"
+        "5xx":
+          $ref: "#/components/responses/ServerError"
+
+    post:
+      summary: Create a new person
+      operationId: createPerson
+      tags:
+        - Persons
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonRequest"
+      responses:
+        "201":
+          description: Successfully created person
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonResponse"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "409":
+          $ref: "#/components/responses/ConflictError"
+        "5xx":
+          $ref: "#/components/responses/ServerError"
+
+  /persons/{id}:
+    get:
+      summary: Search for a person by ID
+      operationId: findPersonById
+      tags:
+        - Persons
+      parameters:
+        - name: id
+          description: Person ID
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Person found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonResponse"
+        "400":
+            $ref: "#/components/responses/BadRequestError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "5xx":
+          $ref: "#/components/responses/ServerError"
+
+    put:
+      summary: Update a person by ID
+      operationId: updatePerson
+      tags:
+        - Persons
+      parameters:
+        - name: id
+          description: Person ID
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonRequest"
+      responses:
+        "200":
+          description: Person updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonResponse"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "5xx":
+          $ref: "#/components/responses/ServerError"
+
+    delete:
+      summary: Remove a person by ID
+      operationId: deletePerson
+      tags:
+        - Persons
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Person removed successfully
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "5xx":
+            $ref: "#/components/responses/ServerError"
+
+  /persons/email:
+    get:
+      summary: Search for a person by email
+      operationId: findPersonByEmail
+      tags:
+        - Persons
+      parameters:
+        - name: value
+          description: Person's email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Person found by email
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonResponse"
+        "400":
+            $ref: "#/components/responses/BadRequestError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "5xx":
+            $ref: "#/components/responses/ServerError"
+
+  /persons/like-name:
+    get:
+      summary: Search for people whose name contains a certain term
+      operationId: findByLikeName
+      tags:
+        - Persons
+      parameters:
+        - name: term
+          description: Part of the name to be searched
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of people found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PersonResponse"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "5xx":
+          $ref: "#/components/responses/ServerError"
+
+  /persons/gender:
+    get:
+      summary: List Genders
+      operationId: listGenders
+      tags:
+        - Persons
+      responses:
+        "200":
+          description: List genders with their description
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GenderResponse"
+
+components:
+  responses:
+    ServerError:
+      description: "Unexpected error"
+    ConflictError:
+      description: "Conflict"
+    BadRequestError:
+      description: "Request error"
+    NotFoundError:
+      description: "Item not found"
+    NoContentSuccess:
+      description: "Success - no content"
+
+  schemas:
+    Gender:
+      type: string
+      enum:
+        - MALE
+        - FEMALE
+      description: "Gender"
+      example: "MALE"
+
+    GenderResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "MALE"
+        description:
+          type: string
+          example: "Masculino"
+
+    PersonRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: "João"
+        lastName:
+          type: string
+          example: "Silva"
+        address:
+          type: string
+          example: "São Paulo - Brasil"
+        gender:
+          $ref: "#/components/schemas/Gender"
+        email:
+          type: string
+          format: email
+          example: "joao.silva@email.com"
+
+    PersonResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstName:
+          type: string
+          example: "João"
+        lastName:
+          type: string
+          example: "Silva"
+        address:
+          type: string
+          example: "São Paulo - Brasil"
+        gender:
+          $ref: "#/components/schemas/Gender"
+        email:
+          type: string
+          format: email
+          example: "joao.silva@email.com"
